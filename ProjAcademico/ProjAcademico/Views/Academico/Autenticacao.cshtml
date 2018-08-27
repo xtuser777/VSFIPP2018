@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_Auth.cshtml";
+    ViewBag.Title = "Autenticação de Usuário";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        var erro = "@ViewBag.Erro";
+        if (erro != "") {
+            $("#divErros").html(erro);
+            $("#divErros").show(300);
+        }
+        $("#btnEnviar").click(function () {
+            var msg = "";
+            if ($("#txtLogin").val() == "" ||
+                $("#txtLogin").val() < 0) {
+                msg += ". Informe o Login do usuário.<br />";
+            }
+            if ($("#txtPwd").val() == "") {
+                msg += ". Informe a SENHA do usuário.<br />";
+            }
+
+            if (msg.length > 0) {
+                $("#divErros").html(msg);
+                $("#divErros").show(300);
+                return false;
+            }
+        });
+    </script>
+}
+
+<h2>Autenticação de Usuário</h2>
+
+<hr />
+
+<form id="frmAuth" action="/Academico/ValidaAutenticacao" method="post">
+    <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" name="txtLogin" id="txtLogin"
+               class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Senha</label>
+        <input type="password" name="txtPwd" id="txtPwd"
+               class="form-control" />
+    </div>
+    <button type="submit" name="btnEnviar"
+            id="btnEnviar" class="btn btn-success">
+        Enviar
+    </button>
+</form>
+
+<hr />
+
+<div id="divErros" style="display:none" class="alert alert-warning" role="alert">
+    ...
+</div>
+
