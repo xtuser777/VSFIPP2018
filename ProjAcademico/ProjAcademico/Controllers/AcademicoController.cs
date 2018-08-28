@@ -32,24 +32,88 @@ namespace ProjAcademico.Controllers
             }
             else
             {
+                GravandoDadosCookie("logado");
                 return RedirectToAction("Dashboard", "Academico");
             }
         }
 
         public ActionResult Dashboard()
         {
-            return View();
+            if (VerificarCookie("logado"))
+                return View();
+            else
+                return RedirectToAction("Autenticacao", "Academico");
         }
 
         public ActionResult GerenciarCursos()
         {
-            return View();
+            if (VerificarCookie("logado"))
+                return View();
+            else
+                return RedirectToAction("Autenticacao", "Academico");
         }
 
         [HttpPost]
-        public ActionResult GravarCurso()
+        public ActionResult GravarCurso(string txtId, string txtNome, string selSituacao, string selCategoria)
         {
             return null;
+        }
+
+        private void GravandoDadosCookie(string nomeCookie)
+        {
+            // Verificando se já existe o cookie na máquina do usuário
+            HttpCookie cookie = Request.Cookies[nomeCookie];
+            if (cookie == null)
+            {
+                // Criando a Instância do cookie
+                cookie = new HttpCookie(nomeCookie);
+                //Adicionando a propriedade "Nome" no cookie
+                cookie.Values.Add("activeUser", "true");
+                //colocando o cookie para expirar em uma hora
+                cookie.Expires = DateTime.Now.AddHours(1);
+                // Definindo a segurança do nosso cookie
+                cookie.HttpOnly = true;
+                // Registrando cookie
+                this.Response.AppendCookie(cookie);
+
+            }
+        }
+
+        /*
+         * Método 02
+         *  Método responsável por obter as propriedades de um cookie caso ele exista
+         */
+        public bool VerificarCookie(string nomeCookie)
+        {
+            bool active = false;
+            // Obtém a requisição com dos dados do cookie
+            HttpCookie cookie = ObterRequisicaoCookie(nomeCookie);
+            if (cookie != null)
+            {
+                // Separa os valores das propriedade
+                string valor = cookie.Value.ToString();
+                if (valor == "activeUser=true")
+                    active = true;
+            }
+            return active;
+        }
+
+        /*
+         * Método 03
+         * Método responsável por Obter a requisição HttpCookie de um determinado cookie caso ele exista
+         */
+        private HttpCookie ObterRequisicaoCookie(string nomeCookie)
+        {
+            try
+            {
+                // Retornando o cookie caso exista
+                return this.Request.Cookies[nomeCookie];
+            }
+            catch
+            {
+                // Caso não exista o cookie informado, retorna NULL
+                return null;
+            }
         }
     }
 }

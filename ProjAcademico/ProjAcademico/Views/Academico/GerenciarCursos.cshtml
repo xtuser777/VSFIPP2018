@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_Cursos.cshtml";
+    ViewBag.Title = "Gerenciar Cursos";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $("#btnGravar").click(function () {
+            var msg = "";
+            if ($("#txtId").val() == "" || $("#txtId").val() < 0) {
+                msg += ". Informe o Código do Curso.<br />";
+            }
+            if ($("#txtNome").val() == "") {
+                msg += ". Informe o NOME do Curso.<br />";
+            }
+            if ($("#selCategoria").val() == "0") {
+                msg += ". Selecione a categoria do Curso.<br />";
+            }
+
+            if (msg.length > 0) {
+                $("#divErros").html(msg);
+                $("#divErros").show(300);
+                return false;
+            }
+        });
+        $("#btnCancelar").click(function () {
+            $("input[type=text]").val("");
+            $("#divErros").hide(300);
+        })
+    </script>
+}
+
+<h2>Gerenciar Cursos</h2>
+<hr />
+<form id="frmCadCur" action="/Academico/GravarCurso" method="post" style="margin:0 auto;">
+    <div class="form-group">
+        <label>Codigo</label>
+        <input type="text" name="txtId" id="txtId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Nome</label>
+        <input type="text" name="txtNome" id="txtNome" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Situação</label>
+        <select name="selSituacao" id="selSituacao" class="form-control">
+            <option value="S">ATIVO</option>
+            <option value="N">NÃO ATIVO</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Categoria</label>
+        <select name="selCategoria" id="selCategoria" class="form-control">
+            <option value="0">SELECIONE</option>
+        </select>
+    </div>
+    <button type="submit" name="btnGravar" id="btnGravar" class="btn btn-success">
+        Gravar
+    </button>
+    <button type="button" name="btnCancelar" id="btnCancelar" class="btn btn-danger">
+        Cancelar
+    </button>
+</form>
+<hr />
+<div id="divErros" style="display:none" class="alert alert-warning" role="alert">
+    ...
+</div>
+<hr />
+<table align="center" width="80%">
+    <thead>
+        <tr>
+            <td>Código</td>
+            <td>Nome</td>
+            <td>Ativo</td>
+            <td>Categoria</td>
+            <td>Opções</td>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Rotina para carregamento de cursos -->
+        <!--Um pequeno esboço-->
+        <tr>
+            <td>007</td>
+            <td>Redes de Computadores</td>
+            <td>S</td>
+            <td>Informática</td>
+            <td>
+                <button type="submit" name="btnAlterar" id="btnAlterar" class="btn btn-success">
+                    Alterar
+                </button>
+                <button type="submit" name="btnExcluir" id="btnExcluir" class="btn btn-danger">
+                    Excluir
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr />
