@@ -14,28 +14,51 @@ namespace SurveyWeb.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Validar(string txtEmail, string txtSenha)
         {
             if(txtEmail != "usuario@email.com.br" || txtSenha != "123")
             {
-                ViewBag.Erro = "Um ou mais campos incorretos";
+                ViewData["Erros"] = "Um ou mais campos incorretos";
                 return View("Index");
             }
             else
             {
-                CriaCookie("login");
+                CriaCookie("login", txtEmail, txtSenha);
                 return RedirectToAction("Dashboard", "Home");
             }
         }
 
-        private void CriaCookie(string nome)
+        [HttpPost]
+        public ActionResult ValidarNovoUsuario(string txtEmail, string txtNome, string txtSenha, string txtSenha2)
+        {
+            string erros = "";
+
+            if(txtEmail.Length )
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult ValidarRecuperacao(string txtEmailRecuperar)
+        {
+
+            return null;
+        }
+
+        private void CriaCookie(string nome, string user, string pwd)
         {
             HttpCookie cookie = Request.Cookies[nome];
             if(cookie == null)
             {
                 cookie = new HttpCookie(nome);
-                cookie.Values.Add("logado", "true");
+                cookie.Values.Add("user", user);
+                cookie.Values.Add("passwd", pwd);
+                cookie.Values.Add("status", "active");
                 cookie.Expires = DateTime.Now.AddHours(1);
                 cookie.HttpOnly = true;
                 Response.AppendCookie(cookie);
