@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SurveyWeb.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,15 +7,10 @@ using System.Web.Mvc;
 
 namespace SurveyWeb.Controllers
 {
-    public class SiteController : Controller
+    public class RelatoriosController : Controller
     {
-        // GET: Site
+        [ValidarAcesso]
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult Dashboard()
         {
             return View();
         }

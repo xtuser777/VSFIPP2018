@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,16 +21,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Survey NET", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Survey NET", "Login", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            @if (Session["autenticado"] != null && Session["autenticado"].ToString() == "ok")
+            @if (Request.Cookies["token"] != null && Request.Cookies["token"].Values["nivel"] == "A")
             {
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/Dashboard">Dashboard</a></li>
-                        <li><a href="/Questionario">Questionários</a></li>
-                        <li><a href="/Pergunta">Perguntas</a></li>
-                        <li><a href="#">Relatórios</a></li>
+                        <li><a href="/Dashboard/Index">Dashboard</a></li>
+                        <li><a href="/Questionarios/Index">Questionários</a></li>
+                        <li><a href="/Perguntas/Index">Perguntas</a></li>
+                        <li><a href="/Relatorios/Index">Relatórios</a></li>
                     </ul>
                     <ul id="navbar2" class="nav navbar-nav navbar-right">
                         <li class="dropdown">
