@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SurveyWeb.Models
 {
-    public class Alternativa
+    internal class Alternativa
     {
         private int _id;
         private string _opcao;
@@ -16,5 +16,13 @@ namespace SurveyWeb.Models
         public string Opcao { get => _opcao; set => _opcao = value; }
         public int Ordem { get => _ordem; set => _ordem = value; }
         public Pergunta Pergunta { get => _pergunta; set => _pergunta = value; }
+
+        public Alternativa(int id, string opcao, int ordem, Pergunta pergunta)
+        {
+            Id = id;
+            Opcao = opcao;
+            Ordem = ordem;
+            Pergunta = pergunta;
+        }
     }
 }

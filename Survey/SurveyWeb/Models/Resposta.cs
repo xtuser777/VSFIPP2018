@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SurveyWeb.Models
 {
-    public class Resposta
+    internal class Resposta
     {
         private int _id;
         private Pergunta _pergunta;

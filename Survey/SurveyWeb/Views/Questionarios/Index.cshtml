@@ -9,8 +9,30 @@
             if ($("#txtSearch").val() == "" || $("#txtSearch").val() < 1) {
                 alert(". Informe algum termo de algum questionario.");
             }
+            else {
+                $("#formSearch").submit();
+            }
         });
 
+        $("#btnConfirmar").click(function () {
+            var err = "";
+            if($("#txtTitulo").val() == "" || $("#txtTitulo").val() < 1) {
+                err += ". Informe o TÍTULO do questionário.\n";
+            }
+            if ($("#txtDtInicio").val() == "" || $("#txtDtInicio").val() < 1) {
+                err += ". Informe a data de início do questionário.\n";
+            }
+            if ($("#txtGuid").val() == "" || $("#txtGuid").val() < 1) {
+                err += ". Informe a GUID.";
+            }
+
+            if (err.length > 0) {
+                alert(err);
+            }
+            else {
+                $("#formAlterar").submit();
+            }
+        });
     </script>
 }
 
@@ -45,7 +67,7 @@
             <td>1111-1111-1111-1111-1111</td>
             <td>
                 <a href="javascript:;" data-fancybox data-src="#alterarQuestionario" class="btn btn-primary">Alterar</a>
-                <a href="/Questionarios/ExcluirQuestionario" class="btn btn-danger">Excluir</a>
+                <a href="/Questionarios/ExcluirQuestionario" class="btn btn-danger" onclick="return confirm('Deseja mesmo excluir?')">Excluir</a>
             </td>
         </tr>
         <tr>
@@ -56,7 +78,7 @@
             <td>2222-2222-2222-2222-2222</td>
             <td>
                 <a href="javascript:;" data-fancybox data-src="#alterarQuestionario" class="btn btn-primary">Alterar</a>
-                <a href="/Questionarios/ExcluirQuestionario" class="btn btn-danger">Excluir</a>
+                <a href="/Questionarios/ExcluirQuestionario" class="btn btn-danger" onclick="return confirm('Deseja mesmo excluir?')">Excluir</a>
             </td>
         </tr>
     </tbody>
