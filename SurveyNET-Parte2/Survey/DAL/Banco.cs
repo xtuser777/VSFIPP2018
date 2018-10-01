@@ -131,7 +131,7 @@ namespace Survey.DAL
         /// Método responsável pela execução dos comandos de Insert, Update e Delete
         /// </summary>
         /// <returns> Retorna a quantidade de linhas afetadas</returns>
-        protected int ExecutaCommando(bool transacao)
+        protected int ExecutaComando(bool transacao)
         {
             if (_comandoSQL.CommandText.Trim() == string.Empty)
                 throw new Exception("Instrução SQL vazia");

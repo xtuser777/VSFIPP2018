@@ -40,7 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AlternativaController.cs" />
+    <Compile Include="Controllers\PerguntaController.cs" />
+    <Compile Include="Controllers\QuestionarioController.cs" />
+    <Compile Include="Controllers\RespostaController.cs" />
+    <Compile Include="Controllers\TipoPerguntaController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="DAL\AlternativaDAO.cs" />
     <Compile Include="DAL\Banco.cs" />
+    <Compile Include="DAL\PerguntaDAO.cs" />
+    <Compile Include="DAL\QuestionarioDAO.cs" />
+    <Compile Include="DAL\RespostaDAO.cs" />
+    <Compile Include="DAL\TipoPerguntaDAO.cs" />
+    <Compile Include="DAL\UsuarioDAO.cs" />
     <Compile Include="Models\Alternativa.cs" />
     <Compile Include="Models\Pergunta.cs" />
     <Compile Include="Models\Questionario.cs" />
@@ -55,6 +67,8 @@
     <Compile Include="ViewModels\TipoPerguntaViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

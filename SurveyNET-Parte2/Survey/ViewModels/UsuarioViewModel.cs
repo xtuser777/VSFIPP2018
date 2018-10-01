@@ -13,7 +13,7 @@ namespace Survey.ViewModels
         public string Email { get; set; }
         public string Senha { get; set; }
         public DateTime DataCadastro { get; set; }
-        public DateTime? DateFim { get; set; }
+        public DateTime? DataFim { get; set; }
         public List<QuestionarioViewModel> Questionarios { get; set; }
     }
 }
