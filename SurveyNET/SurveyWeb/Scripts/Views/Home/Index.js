@@ -81,3 +81,32 @@ $("#btnConfirmar").click(function () {
         });
     }
 });
+
+$("#btnEnviarRecuperar").click(function () {
+    var msg = "";
+    var email = $("#txtEmailRecuperar").val();
+    if (email == "" && !email.search("@")) {
+        msg += "Por favor, informe um e-mail para o usuário.<br />";
+    }
+
+    if (msg.length > 0) {
+        alert(msg);
+    } else {
+        $("#divLoading").show(300);
+        $.ajax({
+            type: 'POST',
+            url: '/Home/RecuperarSenha',
+            data: { Email: email},
+            success: function (result) {
+                $("#divLoading").hide(300);
+                    alert(result);
+                    $.fancybox.close();
+                
+            },
+            error: function (XMLHttpRequest, txtStatus, errorThrown) {
+                alert("Status: " + txtStatus); alert("Error: " + errorThrown);
+                $("#divLoading").hide(300);
+            }
+        });
+    }
+});

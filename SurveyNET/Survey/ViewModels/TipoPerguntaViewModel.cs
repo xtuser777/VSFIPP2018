@@ -15,17 +15,10 @@ namespace Survey.ViewModels
 
         public Object GetTipoPergunta()
         {
-            List<Pergunta> perguntas = new List<Pergunta>();
-            foreach(PerguntaViewModel pvm in this.Perguntas)
-            {
-                perguntas.Add(pvm.GetPergunta() as Pergunta);
-            }
-
             return new TipoPergunta()
             {
                 Id = this.Id,
-                Nome = this.Nome,
-                Perguntas = perguntas
+                Nome = this.Nome
             };
         }
     }

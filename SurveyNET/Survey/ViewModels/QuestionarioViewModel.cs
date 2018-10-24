@@ -21,12 +21,6 @@ namespace Survey.ViewModels
 
         public Object GetQuestionario()
         {
-            List<Pergunta> perguntas = new List<Pergunta>();
-            foreach(PerguntaViewModel pvm in this.Perguntas)
-            {
-                perguntas.Add(pvm.GetPergunta() as Pergunta);
-            }
-
             return new Questionario()
             {
                 Id = this.Id,
@@ -36,8 +30,7 @@ namespace Survey.ViewModels
                 MsgFeedback = this.MsgFeedback,
                 Guid = this.Guid,
                 UsuarioId = this.UsuarioId,
-                Usuario = this.Usuario.GetUsuario() as Usuario,
-                Perguntas = perguntas
+                Usuario = this.Usuario.GetUsuario() as Usuario
             };
         }
     }

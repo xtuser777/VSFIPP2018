@@ -128,5 +128,10 @@ namespace Survey.Models
         {
             return new UsuarioDAO().ObterPorId(id);
         }
+
+        internal Usuario ObterPorEmail(string email)
+        {
+            return new UsuarioDAO().ObterPorEmail(email);
+        }
     }
 }

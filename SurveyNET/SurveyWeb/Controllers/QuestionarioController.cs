@@ -24,25 +24,25 @@ namespace SurveyWeb.Controllers
             return Json(dados, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ObterPorId(int userId, int id)
+        public ActionResult ObterPorId(int Id, int IdUsuario)
         {
-            var dados = new cl.QuestionarioController().ObterPorId(userId, id);
-            return Json(dados, JsonRequestBehavior.AllowGet);
+            var dados = new cl.QuestionarioController().ObterPorId(IdUsuario, Id);
+            return dados == null ? Json("") : Json(dados);
         }
 
-        public ActionResult ObterPorPalavraChave(int userId, string chave)
+        public ActionResult ObterPorPalavraChave(string Chave, int IdUsuario)
         {
-            var dados = new cl.QuestionarioController().ObterPorPalavraChave(userId, chave);
-            return Json(dados, JsonRequestBehavior.AllowGet);
+            var dados = new cl.QuestionarioController().ObterPorPalavraChave(IdUsuario, Chave);
+            return dados == null ? Json("") : Json(dados);
         }
 
         [HttpPost]
-        public ActionResult Gravar(string Titulo, string DataInicio, string DataFim, string Feedback, string Guid)
+        public ActionResult Gravar(string Id, string Nome, string Inicio, string Fim, string MsgFeedBack, string Guid)
         {
-            if (Titulo != "" && Feedback != "" && Guid != "" && DataInicio != "" && DataFim != "")
+            if (Nome != "" && Guid != "" && Inicio != "" && Fim != "")
             {
-                var dataInicio = DateTime.Parse(DataInicio);
-                var dataFim = DateTime.Parse(DataFim);
+                var dataInicio = DateTime.Parse(Inicio);
+                var dataFim = DateTime.Parse(Fim);
                 cl.QuestionarioController ctlQuestionario = new cl.QuestionarioController();
                 cl.UsuarioController ctlUsuario = new cl.UsuarioController();
                 var usuario = ctlUsuario.ObterPorId(int.Parse(Request.Cookies["token"].Values["idUsuario"].ToString()));
@@ -50,10 +50,10 @@ namespace SurveyWeb.Controllers
                 var res = ctlQuestionario.Gravar(new QuestionarioViewModel()
                 {
                     Id = 0,
-                    Nome = Titulo,
-                    Inicio = DateTime.Parse(DataInicio),
-                    Fim = DateTime.Parse(DataFim),
-                    MsgFeedback = Feedback,
+                    Nome = Nome,
+                    Inicio = DateTime.Parse(Inicio),
+                    Fim = DateTime.Parse(Fim),
+                    MsgFeedback = MsgFeedBack,
                     Guid = Guid,
                     Usuario = usuario,
                     UsuarioId = usuario.Id
@@ -72,6 +72,16 @@ namespace SurveyWeb.Controllers
             {
                 return Json("Dados de entrada inválidos.");
             }
+        }
+
+        [HttpPost]
+        public ActionResult Excluir(int Id)
+        {
+            cl.QuestionarioController ctlQuestionario = new cl.QuestionarioController();
+            if (ctlQuestionario.Excluir(Id) > 0)
+                return Json("");
+            else
+                return Json("Não foi possível excluir o registro selecionado.");
         }
 
         //Definir a rota para mapear a URL /PDF/Exportar/_NOME_DO_PARAMETRO_

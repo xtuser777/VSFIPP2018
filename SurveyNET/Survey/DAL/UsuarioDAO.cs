@@ -56,6 +56,19 @@ namespace Survey.DAL
             return dados == null ? null : dados.FirstOrDefault();
         }
 
+        internal Usuario ObterPorEmail(string email)
+        {
+            ComandoSQL.Parameters.Clear();
+            ComandoSQL.CommandText = @"select * from Usuario
+                                        where Email = @email and
+                                            DataFim is null";
+            ComandoSQL.Parameters.AddWithValue("@email", email);
+
+            DataTable dt = ExecutaSelect();
+            var dados = TableToList(dt);
+            return dados == null ? null : dados.FirstOrDefault();
+        }
+
         internal int Gravar(Usuario u)
         {
             ComandoSQL.Parameters.Clear();

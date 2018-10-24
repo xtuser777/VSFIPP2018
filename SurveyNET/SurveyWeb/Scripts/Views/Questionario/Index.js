@@ -1,19 +1,27 @@
 ﻿$("#btnPesquisar").click(function () {
-    var msg = "";
-    var chave = $("#txtPalavraChave").val();
-
-    if (chave == "") {
-        msg += "Por favor, informe uma palavra chave ou id para buscar.<br />";
+    if ($("#txtPalavraChave").val() == "") {
+        ObterQuestionarios();
     }
-
-    if (msg.length > 0) {
-        Mensagem("divAlertaNovoUsuario", msg);
-    } else {
-        if (isNumber(chave)) {
-            ObterQuestionariosPorId(msg);
-        } else {
-            ObterQuestionariosPorPalavraChave(msg);
-        }
+    else {
+        $("#divLoading").show(300);
+        $.ajax({
+            type: 'POST',
+            url: '/Questionario/ObterPorPalavraChave',
+            data: { Chave: $("#txtPalavraChave").val(), IdUsuario: getCookie("token", 0) },
+            success: function (result) {
+                if (result != null && result.length > 0) {
+                    PreencherTabela(result);
+                }
+                else {
+                    bootbox.alert("Nenhum questionário encontrado.");
+                }
+                $("#divLoading").hide(300);
+            },
+            error: function (XMLHttpRequest, txtStatus, errorThrown) {
+                alert("Status: " + txtStatus); alert("Error: " + errorThrown);
+                $("#divLoading").hide(300);
+            }
+        });
     }
 });
 
@@ -41,12 +49,170 @@ function PreencherTabela(dados) {
 };
 
 function Alterar(id) {
-
+    $("#divLoading").show(300);
+    $.ajax({
+        type: 'POST',
+        url: '/Questionario/ObterPorId',
+        data: { Id: id, IdUsuario: getCookie("token", 0) },
+        success: function (result) {
+            if (Object.keys(result).length > 0) {
+                $("#divLoading").hide(300);
+                $.fancybox.open({
+                    src: '#formAltQuestionario',
+                    type: 'inline'
+                });
+                $("#txtIdAlt").val(result.Id);
+                $("#txtTituloAlt").val(result.Nome);
+                $("#txtDataInicioAlt").val(FormatarDataIso(result.Inicio));
+                $("#txtDataFimAlt").val(FormatarDataIso(result.Fim));
+                $("#txtFeedbackAlt").val(result.MsgFeedback);
+                $("#txtGuidAlt").val(result.Guid);
+            }
+            else {
+                $("#divLoading").hide(300);
+            }
+        },
+        error: function (XMLHttpRequest, txtStatus, errorThrown) {
+            alert("Status: " + txtStatus); alert("Error: " + errorThrown);
+            $("#divLoading").hide(300);
+        }
+    });
 };
 
 function Excluir(id) {
-
+    bootbox.confirm({
+        message: "Confirma a exclusão deste registro?",
+        buttons: {
+            confirm: {
+                label: 'Sim',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'Não',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Questionario/Excluir',
+                    data: { Id: id },
+                    success: function (result) {
+                        if (result == "") {
+                            ObterQuestionarios();
+                        }
+                        else {
+                            Mensagem("divAlerta", result);
+                        }
+                    },
+                    error: function (XMLHttpRequest, txtStatus, errorThrown) {
+                        alert("Status: " + txtStatus); alert("Error: " + errorThrown);
+                        $("#divLoading").hide(300);
+                    }
+                });
+            }
+        }
+    });
 };
+
+$("#btnConfirmarNovo").click(function () {
+    var msg = "";
+    var id = $("#txtIdNovo").val();
+    var titulo = $("#txtTituloNovo").val();
+    var inicio = $("#txtDataInicioNovo").val();
+    var fim = $("#txtDataFimNovo").val();
+    var feedback = $("#txtFeedbackNovo").val();
+    var guid = $("#txtGuidNovo").val();
+
+    if (titulo == "") {
+        msg += "Por favor, informe um título para o questionário.<br />";
+    }
+    if (inicio == "") {
+        msg += "Por favor, informe a data para início do questionário.<br />";
+    }
+    if (fim == "") {
+        msg += "Por favor, informe a data para fechamento do questionário.<br />";
+    }
+    if (guid == "") {
+        msg += "Por favor, informe a Guid (URL) para o questionário.<br />";
+    }
+    if (msg.length > 0) {
+        Mensagem("divAlertaNovoQuestionario", msg);
+    }
+    else {
+        $("#divLoading").show(300);
+        $.ajax({
+            type: 'POST',
+            url: '/Questionario/Gravar',
+            data: { Id: id, Nome: titulo, Inicio: inicio, Fim: fim, MsgFeedBack: feedback, Guid: guid },
+            success: function (result) {
+                $("#divLoading").hide(300);
+                if (result.length > 0) {
+                    Mensagem("divAlertaNovoQuestionario", result);
+                }
+                else {
+                    LimparFormulario();
+                    $.fancybox.close();
+                    ObterQuestionarios();
+                }
+            },
+            error: function (XMLHttpRequest, txtStatus, errorThrown) {
+                alert("Status: " + txtStatus); alert("Error: " + errorThrown);
+                $("#divLoading").hide(300);
+            }
+        });
+    }
+});
+
+$("#btnConfirmarAlt").click(function () {
+    var msg = "";
+    var id = $("#txtIdAlt").val();
+    var titulo = $("#txtTituloAlt").val();
+    var inicio = $("#txtDataInicioAlt").val();
+    var fim = $("#txtDataFimAlt").val();
+    var feedback = $("#txtFeedbackAlt").val();
+    var guid = $("#txtGuidAlt").val();
+
+    if (titulo == "") {
+        msg += "Por favor, informe um título para o questionário.<br />";
+    }
+    if (inicio == "") {
+        msg += "Por favor, informe a data para início do questionário.<br />";
+    }
+    if (fim == "") {
+        msg += "Por favor, informe a data para fechamento do questionário.<br />";
+    }
+    if (guid == "") {
+        msg += "Por favor, informe a Guid (URL) para o questionário.<br />";
+    }
+    if (msg.length > 0) {
+        Mensagem("divAlertaAltQuestionario", msg);
+    }
+    else {
+        $("#divLoading").show(300);
+        $.ajax({
+            type: 'POST',
+            url: '/Questionario/Alterar',
+            data: { Id: id, Nome: titulo, Inicio: inicio, Fim: fim, MsgFeedBack: feedback, Guid: guid },
+            success: function (result) {
+                $("#divLoading").hide(300);
+                if (result.length > 0) {
+                    Mensagem("divAlertaNovoQuestionario", result);
+                }
+                else {
+                    LimparFormulario();
+                    $.fancybox.close();
+                    ObterQuestionarios();
+                }
+            },
+            error: function (XMLHttpRequest, txtStatus, errorThrown) {
+                alert("Status: " + txtStatus); alert("Error: " + errorThrown);
+                $("#divLoading").hide(300);
+            }
+        });
+    }
+});
 
 function ObterQuestionarios() {
     $("#divLoading").show(300);
@@ -55,22 +221,6 @@ function ObterQuestionarios() {
     });
     $("#divLoading").hide(300);
 };
-
-function ObterQuestionariosPorId(id) {
-    $("#divLoading").show(300);
-    $.getJSON("/Questionario/ObterPorId/" + getCookie("token", 0) + id, function (data) {
-        PreencherTabela(data);
-    });
-    $("#divLoading").hide(300);
-};
-
-function ObterQuestionariosPorPalavraChave(chave) {
-    $("#divLoading").show(300);
-    $.getJSON("/Questionario/ObterPorPalavraChave/" + getCookie("token", 0) + chave, function (data) {
-        PreencherTabela(data);
-    });
-    $("#divLoading").hide(300);
-}
 
 $(document).ready(function () {
     ObterQuestionarios();

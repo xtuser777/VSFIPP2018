@@ -12,12 +12,6 @@ namespace Survey.Controllers
     {
         public int Gravar(QuestionarioViewModel q)
         {
-            List<Pergunta> perguntas = new List<Pergunta>();
-            foreach (PerguntaViewModel pvm in q.Perguntas)
-            {
-                perguntas.Add(pvm.GetPergunta() as Pergunta);
-            }
-
             Questionario questionario = new Questionario()
             {
                 Id = q.Id,
@@ -26,18 +20,7 @@ namespace Survey.Controllers
                 Fim = q.Fim,
                 MsgFeedback = q.MsgFeedback,
                 Guid = q.Guid,
-                Usuario = new Usuario()
-                {
-                    Id = q.Usuario.Id,
-                    Nome = q.Usuario.Nome,
-                    Email = q.Usuario.Email,
-                    Senha = q.Usuario.Senha,
-                    DataCadastro = q.Usuario.DataCadastro,
-                    DataFim = q.Usuario.DataFim,
-                    Questionarios = null
-                },
-                UsuarioId = q.UsuarioId,
-                Perguntas = perguntas
+                UsuarioId = q.UsuarioId
             };
 
             return questionario.Gravar();
@@ -64,26 +47,23 @@ namespace Survey.Controllers
                 return null;
         }
 
-        public List<QuestionarioViewModel> ObterPorId(int userId, int id)
+        public QuestionarioViewModel ObterPorId(int userId, int id)
         {
             var dados = new Questionario().ObterPorId(userId, id);
-            if (dados != null && dados.Count > 0)
+            if (dados != null)
             {
-                return (
-                    from d in dados
-                    select new QuestionarioViewModel()
-                    {
-                        Id = d.Id,
-                        Nome = d.Nome,
-                        Inicio = d.Inicio,
-                        Fim = d.Fim,
-                        MsgFeedback = d.MsgFeedback,
-                        Guid = d.Guid,
-                        UsuarioId = d.UsuarioId,
-                        Perguntas = null,
-                        Usuario = null
-                    }
-                ).ToList();
+                return new QuestionarioViewModel()
+                {
+                    Id = dados.Id,
+                    Nome = dados.Nome,
+                    Inicio = dados.Inicio,
+                    Fim = dados.Fim,
+                    MsgFeedback = dados.MsgFeedback,
+                    Guid = dados.Guid,
+                    UsuarioId = dados.UsuarioId,
+                    Perguntas = null,
+                    Usuario = null
+                };
             }
             else
             {
@@ -116,6 +96,12 @@ namespace Survey.Controllers
             {
                 return null;
             }
+        }
+
+        public int Excluir(int id)
+        {
+            Questionario q = new Questionario();
+            return q.Excluir(id);
         }
     }
 }

@@ -19,12 +19,6 @@ namespace Survey.ViewModels
 
         public Object GetUsuario()
         {
-            List<Questionario> questionarios = new List<Questionario>();
-            foreach(QuestionarioViewModel qvm in this.Questionarios)
-            {
-                questionarios.Add(qvm.GetQuestionario() as Questionario);
-            }
-
             return new Usuario()
             {
                 Id = this.Id,
@@ -32,8 +26,7 @@ namespace Survey.ViewModels
                 Email = this.Email,
                 Senha = this.Senha,
                 DataCadastro = this.DataCadastro,
-                DataFim = this.DataFim,
-                Questionarios = questionarios
+                DataFim = this.DataFim
             };
         }
     }

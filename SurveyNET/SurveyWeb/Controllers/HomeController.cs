@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using cl = Survey.Controllers;
+using System.Net;
+using System.Net.Mail;
 
 namespace SurveyWeb.Controllers
 {
@@ -68,6 +70,65 @@ namespace SurveyWeb.Controllers
             else
             {
                 return Json("Por favor, informe todos os dados para criar um novo usuário.");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RecuperarSenha(string Email)
+        {
+            if(Email.Length > 5 && Email.Contains("@"))
+            {
+                cl.UsuarioController ctlUsuario = new cl.UsuarioController();
+
+                string emailFrom = "recovery.surveynet@gmail.com";
+                string nomeFrom = "SurveyNET";
+                string emailPara = Email;
+                string assunto = "Recuperacao de Senha";
+                string texto = @"Survey NET\n
+                                 Recuperacao de Senha\n
+                                 Sua senha é: "+ctlUsuario.ObterPorEmail(Email).Senha;
+                return Json(EnviarEmail(emailFrom, nomeFrom, emailPara, assunto, texto));
+            }
+            else
+            {
+                return Json("Email inválido");
+            }
+        }
+
+        public string EnviarEmail(string emailFrom, string nomeFrom, string emailPara, string assunto, string texto)
+        {
+            //Gerando o objeto da mensagem
+            MailMessage msg = new MailMessage();
+            //Remetente
+            msg.From = new MailAddress(emailFrom, nomeFrom);
+            //Destinatários
+            msg.To.Add(emailPara);
+            //Assunto
+            msg.Subject = assunto;
+            //Texto a ser enviado
+            msg.Body = texto;
+            msg.IsBodyHtml = true;
+
+            //Gerando o objeto para envio da mensagem (Exemplo pelo Gmail)
+            SmtpClient client = new SmtpClient();
+            client.UseDefaultCredentials = true;
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new NetworkCredential("recovery.surveynet@gmail.com", "SurveyNET2018");
+            try
+            {
+                client.Send(msg);
+                return "Mensagem enviada com sucesso!";
+            }
+            catch (Exception ex)
+            {
+                return "Falha: " + ex.Message;
+            }
+            finally
+            {
+                msg.Dispose();
             }
         }
 

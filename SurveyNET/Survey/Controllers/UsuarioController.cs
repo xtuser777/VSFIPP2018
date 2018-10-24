@@ -44,6 +44,24 @@ namespace Survey.Controllers
                 return null;
         }
 
+        public UsuarioViewModel ObterPorEmail(string email)
+        {
+            Usuario u = new Usuario().ObterPorEmail(email);
+            if (u != null)
+                return new UsuarioViewModel()
+                {
+                    Id = u.Id,
+                    Nome = u.Nome,
+                    Senha = u.Senha,
+                    Email = u.Email,
+                    DataCadastro = u.DataCadastro,
+                    DataFim = u.DataFim,
+                    Questionarios = null
+                };
+            else
+                return null;
+        }
+
         public int Gravar(UsuarioViewModel u)
         {
             Usuario usuario = new Usuario();

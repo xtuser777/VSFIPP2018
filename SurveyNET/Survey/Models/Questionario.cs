@@ -152,7 +152,7 @@ namespace Survey.Models
 
         internal int Gravar()
         {
-            if(this.Id == 0 && this.Nome.Length > 2 && this.Inicio <= DateTime.Now && this.Guid.Length > 2 && this.UsuarioId > 0)
+            if(this.Id == 0 && this.Nome.Length > 2 && this.Guid.Length > 2 && this.UsuarioId > 0)
             {
                 return new QuestionarioDAO().Gravar(this);
             }
@@ -174,6 +174,14 @@ namespace Survey.Models
             }
         }
 
+        internal int Excluir(int id)
+        {
+            if (id > 0)
+                return new QuestionarioDAO().Excluir(id);
+            else
+                return -10;
+        }
+
         internal List<Questionario> ObterPorUsuario(int id)
         {
             if (id > 0)
@@ -182,7 +190,7 @@ namespace Survey.Models
                 return null;
         }
 
-        internal List<Questionario> ObterPorId(int userId, int id)
+        internal Questionario ObterPorId(int userId, int id)
         {
             if (id > 0 && userId > 0)
             {
