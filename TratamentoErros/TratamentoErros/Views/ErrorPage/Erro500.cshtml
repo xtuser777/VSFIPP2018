@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Erro500";
+}
+
+<h2>Erro500</h2>
+
+<ul>
+    @for(int i = 0; i < Request.ServerVariables.Count; i++)
+    {
+        <li>@Request.ServerVariables.Keys[i] = @Request.ServerVariables[i]</li>
+    }
+</ul>
