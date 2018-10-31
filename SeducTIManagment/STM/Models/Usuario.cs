@@ -14,8 +14,8 @@ namespace STM.Models
         private string _senha;
         private DateTime _dataAdmissao;
         private DateTime _dataDemissao;
-        private long _cpf;
-        private int _rg;
+        private string _cpf;
+        private string _rg;
         private int _nivelCodigo;
         private int _localCodigo;
         private Nivel nivel;
@@ -27,8 +27,8 @@ namespace STM.Models
         internal string Senha { get => _senha; set => _senha = value; }
         internal DateTime DataAdmissao { get => _dataAdmissao; set => _dataAdmissao = value; }
         internal DateTime DataDemissao { get => _dataDemissao; set => _dataDemissao = value; }
-        internal long Cpf { get => _cpf; set => _cpf = value; }
-        internal int Rg { get => _rg; set => _rg = value; }
+        internal string Cpf { get => _cpf; set => _cpf = value; }
+        internal string Rg { get => _rg; set => _rg = value; }
         internal int NivelCodigo { get => _nivelCodigo; set => _nivelCodigo = value; }
         internal int LocalCodigo { get => _localCodigo; set => _localCodigo = value; }
         internal Nivel Nivel { get => nivel; set => nivel = value; }
@@ -49,13 +49,13 @@ namespace STM.Models
             return usuario;
         }
 
-        internal List<Usuario> ObterPorNivel(int nivel)
+        internal List<Usuario> ObterAtivos(int nivel)
         {
             List<Usuario> usuarios = new List<Usuario>();
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             if(nivel > 0)
             {
-                usuarios = usuarioDAO.ObterPorNivel(nivel);
+                usuarios = usuarioDAO.ObterAtivos(nivel);
             }
             else
             {
@@ -69,6 +69,14 @@ namespace STM.Models
             List<Usuario> usuarios = new List<Usuario>();
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             usuarios = usuarioDAO.ObterAtivos();
+            return usuarios;
+        }
+
+        internal List<Usuario> ObterDesativados()
+        {
+            List<Usuario> usuarios = new List<Usuario>();
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuarios = usuarioDAO.ObterDesativados();
             return usuarios;
         }
 
@@ -108,6 +116,14 @@ namespace STM.Models
             int retorno;
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             retorno = usuarioDAO.Desativar(codigo);
+            return retorno;
+        }
+
+        internal int Reativar(int codigo)
+        {
+            int retorno;
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            retorno = usuarioDAO.Reativar(codigo);
             return retorno;
         }
     }
