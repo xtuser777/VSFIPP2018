@@ -155,8 +155,10 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuestionarioController.cs" />
+    <Compile Include="Controllers\ResponderController.cs" />
     <Compile Include="Filters\ValidarAcessoFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -186,6 +188,11 @@
     <Content Include="Scripts\popper.min.js.map" />
     <Content Include="Scripts\README.md" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\ErrorPage\Erro404.cshtml" />
+    <Content Include="Views\ErrorPage\Erro500.cshtml" />
+    <Content Include="Views\ErrorPage\Erro403.cshtml" />
+    <Content Include="Views\ErrorPage\Padrao.cshtml" />
+    <Content Include="Views\Responder\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

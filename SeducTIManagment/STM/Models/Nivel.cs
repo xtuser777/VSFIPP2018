@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace STM.Models
 {
-    internal class Marca
+    internal class Nivel
     {
         private int _codigo;
         private string _nome;
@@ -14,43 +14,43 @@ namespace STM.Models
         internal int Codigo { get => _codigo; set => _codigo = value; }
         internal string Nome { get => _nome; set => _nome = value; }
 
-        internal Marca Obter(int codigo)
+        internal Nivel Obter(int codigo)
         {
-            Marca marca = new Marca();
-            MarcaDAO marcaDAO = new MarcaDAO();
-            marca = marcaDAO.Obter(codigo);
-            return marca;
+            Nivel nivel = new Nivel();
+            NivelDAO nivelDAO = new NivelDAO();
+            nivel = nivelDAO.Obter(codigo);
+            return nivel;
         }
 
-        internal List<Marca> Obter()
+        internal List<Nivel> Obter()
         {
-            List<Marca> marcas = new List<Marca>();
-            MarcaDAO marcaDAO = new MarcaDAO();
-            marcas = marcaDAO.Obter();
-            return marcas;
+            List<Nivel> niveis = new List<Nivel>();
+            NivelDAO nivelDAO = new NivelDAO();
+            niveis = nivelDAO.Obter();
+            return niveis;
         }
 
         internal int Gravar()
         {
             int retorno;
-            MarcaDAO marcaDAO = new MarcaDAO();
-            retorno = marcaDAO.Gravar(this);
+            NivelDAO nivelDAO = new NivelDAO();
+            retorno = nivelDAO.Gravar(this);
             return retorno;
         }
 
         internal int Alterar()
         {
             int retorno;
-            MarcaDAO marcaDAO = new MarcaDAO();
-            retorno = marcaDAO.Alterar(this);
+            NivelDAO nivelDAO = new NivelDAO();
+            retorno = nivelDAO.Alterar(this);
             return retorno;
         }
 
         internal int Excluir(int codigo)
         {
             int retorno;
-            MarcaDAO marcaDAO = new MarcaDAO();
-            retorno = marcaDAO.Excluir(codigo);
+            NivelDAO nivelDAO = new NivelDAO();
+            retorno = nivelDAO.Excluir(codigo);
             return retorno;
         }
     }

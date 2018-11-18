@@ -14,6 +14,17 @@ namespace SurveyWeb
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "responderQuestionario",
+                url: "responder/{guid}",
+                defaults: new
+                {
+                    controller = "Responder",
+                    action = "Index",
+                    guid = UrlParameter.Optional
+                }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

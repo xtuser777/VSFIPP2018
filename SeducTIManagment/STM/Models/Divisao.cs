@@ -34,6 +34,14 @@ namespace STM.Models
             return divisao;
         }
 
+        internal List<Divisao> Obter()
+        {
+            List<Divisao> divisoes = new List<Divisao>();
+            DivisaoDAO divisaoDAO = new DivisaoDAO();
+            divisoes = divisaoDAO.Obter();
+            return divisoes;
+        }
+
         internal List<Divisao> ObterPorLocal(int local)
         {
             List<Divisao> divisoes = new List<Divisao>();

@@ -32,19 +32,19 @@ namespace STM.Models
             return modelo;
         }
 
-        internal List<Modelo> ObterPorMarca(int marca)
+        internal List<Modelo> Obter()
         {
             List<Modelo> modelos = new List<Modelo>();
             ModeloDAO modeloDAO = new ModeloDAO();
-            modelos = modeloDAO.ObterPorMarca(marca);
+            modelos = modeloDAO.Obter();
             return modelos;
         }
 
-        internal List<Modelo> ObterPorTipo(int tipo)
+        internal List<Modelo> Obter(int marca, int tipo)
         {
             List<Modelo> modelos = new List<Modelo>();
             ModeloDAO modeloDAO = new ModeloDAO();
-            modelos = modeloDAO.ObterPorTipo(tipo);
+            modelos = modeloDAO.ObterPorTipo(marca, tipo);
             return modelos;
         }
 

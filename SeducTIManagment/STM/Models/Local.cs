@@ -41,6 +41,14 @@ namespace STM.Models
             return local;
         }
 
+        internal List<Local> Obter()
+        {
+            List<Local> locais = new List<Local>();
+            LocalDAO localDAO = new LocalDAO();
+            locais = localDAO.Obter();
+            return locais;            
+        }
+
         internal int Gravar()
         {
             int retorno;

@@ -3,7 +3,7 @@
         ObterQuestionarios();
     }
     else {
-        $("#divLoading").show(300);
+        //$("#divLoading").show(300);
         $.ajax({
             type: 'POST',
             url: '/Questionario/ObterPorPalavraChave',
@@ -15,11 +15,11 @@
                 else {
                     bootbox.alert("Nenhum questionário encontrado.");
                 }
-                $("#divLoading").hide(300);
+                //$("#divLoading").hide(300);
             },
             error: function (XMLHttpRequest, txtStatus, errorThrown) {
                 alert("Status: " + txtStatus); alert("Error: " + errorThrown);
-                $("#divLoading").hide(300);
+                //$("#divLoading").hide(300);
             }
         });
     }
@@ -49,7 +49,7 @@ function PreencherTabela(dados) {
 };
 
 function Alterar(id) {
-    $("#divLoading").show(300);
+    //$("#divLoading").show(300);
     $.ajax({
         type: 'POST',
         url: '/Questionario/ObterPorId',
@@ -69,12 +69,12 @@ function Alterar(id) {
                 $("#txtGuidAlt").val(result.Guid);
             }
             else {
-                $("#divLoading").hide(300);
+                //$("#divLoading").hide(300);
             }
         },
         error: function (XMLHttpRequest, txtStatus, errorThrown) {
             alert("Status: " + txtStatus); alert("Error: " + errorThrown);
-            $("#divLoading").hide(300);
+            //$("#divLoading").hide(300);
         }
     });
 };
@@ -124,6 +124,16 @@ $("#btnConfirmarNovo").click(function () {
     var fim = $("#txtDataFimNovo").val();
     var feedback = $("#txtFeedbackNovo").val();
     var guid = $("#txtGuidNovo").val();
+    var arquivos = document.getElementById("fuImagemNovo");
+
+    var formData = new FormData();
+    formData.append("Id", id);
+    formData.append("Nome", titulo);
+    formData.append("Inicio", inicio);
+    formData.append("Fim", fim);
+    formData.append("FeedBack", feedback);
+    formData.append("Guid", guid);
+    formData.append("Imagem", arquivos.files[0]);
 
     if (titulo == "") {
         msg += "Por favor, informe um título para o questionário.<br />";
@@ -141,13 +151,16 @@ $("#btnConfirmarNovo").click(function () {
         Mensagem("divAlertaNovoQuestionario", msg);
     }
     else {
-        $("#divLoading").show(300);
+        //$("#divLoading").show(300);
         $.ajax({
             type: 'POST',
             url: '/Questionario/Gravar',
-            data: { Id: id, Nome: titulo, Inicio: inicio, Fim: fim, MsgFeedBack: feedback, Guid: guid },
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function (result) {
-                $("#divLoading").hide(300);
+                //$("#divLoading").hide(300);
                 if (result.length > 0) {
                     Mensagem("divAlertaNovoQuestionario", result);
                 }
@@ -159,7 +172,7 @@ $("#btnConfirmarNovo").click(function () {
             },
             error: function (XMLHttpRequest, txtStatus, errorThrown) {
                 alert("Status: " + txtStatus); alert("Error: " + errorThrown);
-                $("#divLoading").hide(300);
+                //$("#divLoading").hide(300);
             }
         });
     }
@@ -173,6 +186,16 @@ $("#btnConfirmarAlt").click(function () {
     var fim = $("#txtDataFimAlt").val();
     var feedback = $("#txtFeedbackAlt").val();
     var guid = $("#txtGuidAlt").val();
+    var arquivos = document.getElementById("fuImagemAlt");
+
+    var formData = new FormData();
+    formData.append("Id", id);
+    formData.append("Nome", titulo);
+    formData.append("Inicio", inicio);
+    formData.append("Fim", fim);
+    formData.append("FeedBack", feedback);
+    formData.append("Guid", guid);
+    formData.append("Imagem", arquivos.files[0]);
 
     if (titulo == "") {
         msg += "Por favor, informe um título para o questionário.<br />";
@@ -186,19 +209,25 @@ $("#btnConfirmarAlt").click(function () {
     if (guid == "") {
         msg += "Por favor, informe a Guid (URL) para o questionário.<br />";
     }
-    if (msg.length > 0) {
+    if (msg != "") {
         Mensagem("divAlertaAltQuestionario", msg);
     }
     else {
-        $("#divLoading").show(300);
+        //$("#divLoading").show(300);
         $.ajax({
             type: 'POST',
             url: '/Questionario/Alterar',
-            data: { Id: id, Nome: titulo, Inicio: inicio, Fim: fim, MsgFeedBack: feedback, Guid: guid },
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function (result) {
-                $("#divLoading").hide(300);
-                if (result.length > 0) {
-                    Mensagem("divAlertaNovoQuestionario", result);
+                //$("#divLoading").hide(300);
+                if (result != "") {
+                    $("#divAlertaAltQuestionario").html(result);
+                    $("#divAlertaAltQuestionario").show(300);
+                    $("#divAlertaAltQuestionario").delay(5000);
+                    $("#divAlertaAltQuestionario").hide(300);
                 }
                 else {
                     LimparFormulario();
@@ -206,20 +235,20 @@ $("#btnConfirmarAlt").click(function () {
                     ObterQuestionarios();
                 }
             },
-            error: function (XMLHttpRequest, txtStatus, errorThrown) {
-                alert("Status: " + txtStatus); alert("Error: " + errorThrown);
-                $("#divLoading").hide(300);
+            error: function (error) {
+                alert(error);
+                //$("#divLoading").hide(300);
             }
         });
     }
 });
 
 function ObterQuestionarios() {
-    $("#divLoading").show(300);
+    //$("#divLoading").show(300);
     $.getJSON("/Questionario/ObterPorUsuario/" + getCookie("token", 0), function (data) {
         PreencherTabela(data);
     });
-    $("#divLoading").hide(300);
+    //$("#divLoading").hide(300);
 };
 
 $(document).ready(function () {

@@ -22,6 +22,14 @@ namespace STM.Models
             return tipo;
         }
 
+        internal List<Tipo> Obter()
+        {
+            List<Tipo> tipos = new List<Tipo>();
+            TipoDAO tipoDAO = new TipoDAO();
+            tipos = tipoDAO.Obter();
+            return tipos;
+        }
+
         internal int Gravar()
         {
             int retorno;

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Padrao";
+}
+
+<h2>Padrao</h2>
+
+<p>
+    Houve um problema ao acessar a página: @Request.QueryString["aspxerrorpath"]
+</p>
+
+<div style="position:relative; display:normal; width:300px; margin:0 auto;">
+    <a class="btn-default btn" href="@Request.QueryString["aspxerrorpath"]">Tentar novamente</a>
+    <a class="btn-default btn" href="/Dashboard/Index">Início</a>
+</div>
+

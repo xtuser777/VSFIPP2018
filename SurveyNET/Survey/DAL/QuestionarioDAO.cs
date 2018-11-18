@@ -24,17 +24,17 @@ namespace Survey.DAL
                              Inicio = Convert.ToDateTime(row["Inicio"]),
                              Fim = Convert.ToDateTime(row["Fim"]),
                              UsuarioId = Convert.ToInt32(row["UsuarioId"]),
-                             Imagem = row["Imagem"].ToString(),
+                             Imagem64 = row["Imagem64"].ToString(),
                              Perguntas = null,
                              Usuario = null
                          }).ToList();
             return dados;
         }
 
-        internal List<Questionario> ObterPorUsuario(int id)
+        internal List<Questionario> Obter(int id)
         {
             ComandoSQL.Parameters.Clear();
-            ComandoSQL.CommandText = @"select Id, Nome, Inicio, Fim, MsgFeedback, Guid, Imagem, UsuarioId 
+            ComandoSQL.CommandText = @"select Id, Nome, Inicio, Fim, MsgFeedback, Guid, Imagem64, UsuarioId 
                                         from Questionario 
                                         where UsuarioId = @id
                                         order by Inicio desc";
@@ -43,10 +43,10 @@ namespace Survey.DAL
             return TableToList(dt);
         }
 
-        internal Questionario ObterPorId(int userId, int id)
+        internal Questionario Obter(int userId, int id)
         {
             ComandoSQL.Parameters.Clear();
-            ComandoSQL.CommandText = @"select Id, Nome, Inicio, Fim, MsgFeedback, Guid, Imagem, UsuarioId
+            ComandoSQL.CommandText = @"select Id, Nome, Inicio, Fim, MsgFeedback, Guid, Imagem64, UsuarioId
                                        from Questionario
                                        where UsuarioId = @userid and Id = @id
                                        order by Inicio desc;";
@@ -57,7 +57,7 @@ namespace Survey.DAL
             return dados == null ? null : dados.FirstOrDefault();
         }
 
-        internal List<Questionario> ObterPorPalavraChave(int userId, string chave)
+        internal List<Questionario> Obter(int userId, string chave)
         {
             ComandoSQL.Parameters.Clear();
             ComandoSQL.CommandText = @"select Id, Nome, Inicio, Fim, MsgFeedback, Guid, Imagem, UsuarioId
@@ -70,17 +70,31 @@ namespace Survey.DAL
             return TableToList(dt);
         }
 
+        internal Questionario Obter(string guid)
+        {
+            ComandoSQL.Parameters.Clear();
+            ComandoSQL.CommandText = @"select Id, Nome, Inicio, Fim, MsgFeedback, Guid, Imagem64, UsuarioId
+                                       from Questionario
+                                       where Guid = @guid
+                                       order by Inicio desc;";
+            ComandoSQL.Parameters.AddWithValue("@guid", guid);
+            DataTable dt = ExecutaSelect();
+            var dados = TableToList(dt);
+            return dados == null ? null : dados.FirstOrDefault();
+        }
+
         internal int Gravar(Questionario q)
         {
             ComandoSQL.Parameters.Clear();
-            ComandoSQL.CommandText = @"insert into Questionario (Nome, Inicio, Fim, MsgFeedback, Guid, UsuarioId)
-                                           values(@nome, @inicio, @fim, @msgFeedbck, @guid, @usuarioid);";
+            ComandoSQL.CommandText = @"insert into Questionario (Nome, Inicio, Fim, MsgFeedback, Guid, Imagem64, UsuarioId)
+                                           values(@nome, @inicio, @fim, @msgFeedbck, @guid, @imagem64, @usuarioid);";
             ComandoSQL.Parameters.AddWithValue("@id", q.Id);
             ComandoSQL.Parameters.AddWithValue("@nome", q.Nome);
             ComandoSQL.Parameters.AddWithValue("@inicio", q.Inicio);
             ComandoSQL.Parameters.AddWithValue("@fim", q.Fim);
             ComandoSQL.Parameters.AddWithValue("@msgFeedbck", q.MsgFeedback);
             ComandoSQL.Parameters.AddWithValue("@guid", q.Guid);
+            ComandoSQL.Parameters.AddWithValue("@imagem64", q.Imagem64);
             ComandoSQL.Parameters.AddWithValue("@usuarioid", q.UsuarioId);
 
             return ExecutaComando();
@@ -89,13 +103,14 @@ namespace Survey.DAL
         internal int Alterar(Questionario q)
         {
             ComandoSQL.Parameters.Clear();
-            ComandoSQL.CommandText = @"update Questionario  
+            ComandoSQL.CommandText = @"update Questionario set 
                                         Nome = @nome, 
                                         Inicio = @inicio, 
                                         Fim = @fim, 
                                         MsgFeedback = @msgFeedbck, 
                                         Guid = @guid, 
-                                        UsuarioId = @usuarioid 
+                                        Imagem64 = @imagem64,
+                                        UsuarioId = @userid 
                                         where Id = @id;";
             ComandoSQL.Parameters.AddWithValue("@id", q.Id);
             ComandoSQL.Parameters.AddWithValue("@nome", q.Nome);
@@ -103,6 +118,7 @@ namespace Survey.DAL
             ComandoSQL.Parameters.AddWithValue("@fim", q.Fim);
             ComandoSQL.Parameters.AddWithValue("@msgFeedbck", q.MsgFeedback);
             ComandoSQL.Parameters.AddWithValue("@guid", q.Guid);
+            ComandoSQL.Parameters.AddWithValue("@imagem64", q.Imagem64);
             ComandoSQL.Parameters.AddWithValue("@userid", q.UsuarioId);
 
             return ExecutaComando();

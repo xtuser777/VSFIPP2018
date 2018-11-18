@@ -20,10 +20,27 @@ namespace Survey.Controllers
                 Fim = q.Fim,
                 MsgFeedback = q.MsgFeedback,
                 Guid = q.Guid,
+                Imagem64 = q.Imagem64,
                 UsuarioId = q.UsuarioId
             };
 
             return questionario.Gravar();
+        }
+
+        public int Alterar(QuestionarioViewModel q)
+        {
+            Questionario questionario = new Questionario()
+            {
+                Id = q.Id,
+                Nome = q.Nome,
+                Inicio = q.Inicio,
+                Fim = q.Fim,
+                MsgFeedback = q.MsgFeedback,
+                Guid = q.Guid,
+                Imagem64 = q.Imagem64,
+                UsuarioId = q.UsuarioId
+            };
+            return questionario.Alterar();
         }
 
         public List<QuestionarioViewModel> ObterPorUsuario(int id)
@@ -60,6 +77,32 @@ namespace Survey.Controllers
                     Fim = dados.Fim,
                     MsgFeedback = dados.MsgFeedback,
                     Guid = dados.Guid,
+                    Imagem64 = dados.Imagem64,
+                    UsuarioId = dados.UsuarioId,
+                    Perguntas = null,
+                    Usuario = null
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public QuestionarioViewModel ObterPorGuid(string guid)
+        {
+            var dados = new Questionario().Obter(guid);
+            if (dados != null)
+            {
+                return new QuestionarioViewModel()
+                {
+                    Id = dados.Id,
+                    Nome = dados.Nome,
+                    Inicio = dados.Inicio,
+                    Fim = dados.Fim,
+                    MsgFeedback = dados.MsgFeedback,
+                    Guid = dados.Guid,
+                    Imagem64 = dados.Imagem64,
                     UsuarioId = dados.UsuarioId,
                     Perguntas = null,
                     Usuario = null
@@ -86,6 +129,7 @@ namespace Survey.Controllers
                         Fim = d.Fim,
                         MsgFeedback = d.MsgFeedback,
                         Guid = d.Guid,
+                        Imagem64 = d.Imagem64,
                         UsuarioId = d.UsuarioId,
                         Perguntas = null,
                         Usuario = null

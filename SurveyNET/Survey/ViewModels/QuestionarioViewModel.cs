@@ -15,6 +15,7 @@ namespace Survey.ViewModels
         public DateTime Fim { get; set; }
         public string MsgFeedback { get; set; }
         public string Guid { get; set; }
+        public string Imagem64 { get; set; }
         public int UsuarioId { get; set; }
         public UsuarioViewModel Usuario { get; set; }
         public List<PerguntaViewModel> Perguntas { get; set; }
@@ -29,6 +30,7 @@ namespace Survey.ViewModels
                 Fim = this.Fim, 
                 MsgFeedback = this.MsgFeedback,
                 Guid = this.Guid,
+                Imagem64 = this.Imagem64,
                 UsuarioId = this.UsuarioId,
                 Usuario = this.Usuario.GetUsuario() as Usuario
             };

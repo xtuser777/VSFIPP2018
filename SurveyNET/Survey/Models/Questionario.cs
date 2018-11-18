@@ -15,7 +15,7 @@ namespace Survey.Models
         private DateTime _fim;
         private string _msgFeedback;
         private string _guid;
-        private string _imagem;
+        private string _imagem64;
         private int _usuarioId;
         private Usuario _usuario;
         private List<Pergunta> _perguntas;
@@ -98,16 +98,16 @@ namespace Survey.Models
             }
         }
 
-        internal string Imagem
+        internal string Imagem64
         {
             get
             {
-                return _imagem;
+                return _imagem64;
             }
 
             set
             {
-                _imagem = value;
+                _imagem64 = value;
             }
         }
 
@@ -164,7 +164,7 @@ namespace Survey.Models
 
         internal int Alterar()
         {
-            if (this.Id == 0 && this.Nome.Length > 2 && this.Inicio <= DateTime.Now && this.Guid.Length > 2 && this.UsuarioId > 0)
+            if (this.Id > 0 && this.Nome.Length > 2 && this.Inicio <= DateTime.Now && this.Guid.Length > 2 && this.UsuarioId > 0)
             {
                 return new QuestionarioDAO().Alterar(this);
             }
@@ -185,7 +185,7 @@ namespace Survey.Models
         internal List<Questionario> ObterPorUsuario(int id)
         {
             if (id > 0)
-                return new QuestionarioDAO().ObterPorUsuario(id);
+                return new QuestionarioDAO().Obter(id);
             else
                 return null;
         }
@@ -194,7 +194,7 @@ namespace Survey.Models
         {
             if (id > 0 && userId > 0)
             {
-                return new QuestionarioDAO().ObterPorId(userId, id);
+                return new QuestionarioDAO().Obter(userId, id);
             }
             else
             {
@@ -206,7 +206,7 @@ namespace Survey.Models
         {
             if (userId > 0 && chave.Length > 0)
             {
-                return new QuestionarioDAO().ObterPorPalavraChave(userId, chave);
+                return new QuestionarioDAO().Obter(userId, chave);
             }
             else
             {
@@ -214,5 +214,16 @@ namespace Survey.Models
             }
         }
 
+        internal Questionario Obter(string guid)
+        {
+            if(guid != null && guid.Length > 0)
+            {
+                return new QuestionarioDAO().Obter(guid);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

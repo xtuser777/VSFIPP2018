@@ -1,0 +1,38 @@
+﻿@using Survey.ViewModels;
+@{
+    ViewBag.Title = "Responder Questionário";
+}
+
+@{
+    QuestionarioViewModel qvm = ViewBag.survey;
+    String erro = ViewBag.erro;
+
+    if (erro == "0")
+    {
+        <h2>Responder Questionário @qvm.Nome</h2>
+
+        <label id="lbImg">Imagem do Questionário:</label>
+        <img src="data:image/png;base64, @qvm.Imagem64" />
+
+        <p>
+            <label id="lbNome">Nome:</label> @qvm.Nome
+        </p>
+        <p>
+            <label id="lbFeed">FeedBack:</label> @qvm.MsgFeedback
+        </p>
+        <p>
+            <label id="lbInicio" >Data Início:</label> @qvm.Inicio.ToShortDateString()
+        </p>
+        <p>
+            <label id="lbFim" >Data Fim:</label> @qvm.Fim.ToShortDateString()
+        </p>
+    }
+    else
+    {
+        <h2>Houve um erro ao carregar o questionário</h2>
+
+        <p>
+            Questionário não encontrado...
+        </p>
+    }
+}

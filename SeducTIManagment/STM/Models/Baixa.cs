@@ -35,19 +35,19 @@ namespace STM.Models
             return baixa;
         }
 
-        internal List<Baixa> ObterPorMotivo(string motivo)
+        internal List<Baixa> Obter()
         {
             List<Baixa> baixas = new List<Baixa>();
             BaixaDAO baixaDAO = new BaixaDAO();
-            baixas = baixaDAO.ObterPorMotivo(motivo);
+            baixas = baixaDAO.Obter();
             return baixas;
         }
 
-        internal List<Baixa> ObterPorData(DateTime data)
+        internal List<Baixa> Obter(int motivo, DateTime data)
         {
             List<Baixa> baixas = new List<Baixa>();
             BaixaDAO baixaDAO = new BaixaDAO();
-            baixas = baixaDAO.ObterPorData(data);
+            baixas = baixaDAO.ObterPorData(motivo, data);
             return baixas;
         }
 

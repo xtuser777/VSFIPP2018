@@ -15,7 +15,10 @@ namespace SurveyWeb.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            if (Request.Cookies["token"] == null)
+                return View();
+            else
+                return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpPost]
